@@ -27,11 +27,16 @@ app.get("/api/hello", function (req, res) {
 app.use(express.urlencoded());
 
 app.get('/api/:date', (req, res) => {
-  const date = new Date(req.params.date)
+  const numDate = Number(req.params.date)
+  if (numDate) {
+    date = new Date(numDate)
+  } else {
+    date = new Date(req.params.date)
+  }
   const unixDate = date.getTime();
   const utcDate = date.toUTCString();
   res.json({unix: unixDate, utc: utcDate})
-})
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
