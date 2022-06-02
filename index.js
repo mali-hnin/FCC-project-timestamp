@@ -27,7 +27,8 @@ app.get("/api/hello", function (req, res) {
 app.use(express.urlencoded());
 
 app.get('/api/:date', (req, res) => {
-  const inputDate = req.params.date
+  const inputDate = req.params.date;
+  let date = "";
   const numDate = Number(inputDate)
   if (numDate) {
     date = new Date(numDate)
@@ -42,6 +43,13 @@ app.get('/api/:date', (req, res) => {
     res.json({error: "Invalid Date"})
   }
 });
+
+app.get('/api', (req, res) => {
+  const date = new Date();
+  const unixDate = date.getTime();
+  const utcDate = date.toUTCString();
+  res.json({unix: unixDate, utc: utcDate})
+})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
