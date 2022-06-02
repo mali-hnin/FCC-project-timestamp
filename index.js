@@ -27,15 +27,20 @@ app.get("/api/hello", function (req, res) {
 app.use(express.urlencoded());
 
 app.get('/api/:date', (req, res) => {
-  const numDate = Number(req.params.date)
+  const inputDate = req.params.date
+  const numDate = Number(inputDate)
   if (numDate) {
     date = new Date(numDate)
   } else {
-    date = new Date(req.params.date)
+    date = new Date(inputDate)
   }
   const unixDate = date.getTime();
   const utcDate = date.toUTCString();
-  res.json({unix: unixDate, utc: utcDate})
+  if (date.getTime() === date.getTime()) {
+    res.json({unix: unixDate, utc: utcDate})
+  } else {
+    res.json({error: "Invalid Date"})
+  }
 });
 
 // listen for requests :)
